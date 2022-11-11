@@ -1,0 +1,46 @@
+<nav class="bg-white border-solid border-b-2 border-gray-200">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <img class="h-9 w-9" src="/images/cupcake.png"
+                        alt="Cornie">
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="/orders" class="bg-[#e0e7ff] text-[#4338ca] px-3 py-2 rounded-md text-sm font-semibold"
+                            aria-current="page">Orders</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="-mr-2 flex md:hidden">
+                <!-- Mobile menu button -->
+                <button type="button"
+                    class="menu-toggle inline-flex items-center justify-center rounded-md bg-white border-2 border-gray-200 p-2 text-gray-400 hover:border-sky-500 hover:bg-sky-100 hover:text-sky-500"
+                    aria-controls="mobile-menu" aria-expanded="false">
+
+                    <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+
+                    <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile menu, show/hide based on menu state. -->
+    <div class="md:hidden hidden" id="mobile-menu">
+        <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
+            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+            <a href="#" class="bg-[#e0e7ff] text-[#4338ca] block px-3 py-2 rounded-md text-base font-medium"
+                aria-current="page">Orders</a>
+        </div>
+    </div>
+</nav>

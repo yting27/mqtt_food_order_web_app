@@ -1,8 +1,8 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 13px Mulish, Lato, Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+
+.tabulator-cell > a {
+  color: #0aa2de;
 }

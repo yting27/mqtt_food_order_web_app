@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../partials/head'); %>
+
+    <script type="text/javascript">
+      // Method to color the status text differently
+      function statusCellFormatter(cell) {
+        // cell - the cell component
+
+        // Assign colors to different status
+        let color = "gray";
+        switch (cell.getValue()) {
+          case "Queuing":
+            color = "red";
+            break;
+          case "Preparing":
+            color = "yellow";
+            break;
+          case "Ready":
+            color = "indigo";
+            break;
+          case "Served":
+            color = "green";
+            break;
+        }
+
+        return `<span class=\"py-2 px-4 rounded-full bg-${color}-600 text-white btn-primary\">
+          ${cell.getValue()}</span>`; // Return the contents of the cell;
+      }
+
+      window.addEventListener("load", function () {
+        let tableData = <%- JSON.stringify(orderList) %>;
+
+        //create Tabulator on DOM element with id "example-table"
+        var table = new Tabulator("#orders-table", {
+          data: tableData, // assign data to table
+          layout: "fitColumns", // fit columns to width of table (optional)
+          columns: [ // Define Table Columns
+            {
+              title: "Order ID", 
+              field: "order_id", 
+              width: 150, 
+              headerHozAlign: "left", 
+              formatter: "link", 
+              formatterParams: {
+                labelField: "order_id_str",
+                urlPrefix: "/orders/"
+              }, 
+              headerFilter: true
+            },
+            {
+              title: "Created At", 
+              field: "created_at", 
+              sorter: "date time", 
+              hozAlign: "center", 
+              headerHozAlign: "center", 
+              sorterParams: {
+                format: "LLL d, yyyy, HH:mm:ss",
+                alignEmptyValues: "top",
+              }, 
+              headerFilter: true
+            },
+            { 
+              title: "Table Number", 
+              field: "table_num", 
+              hozAlign: "center", 
+              headerHozAlign: "center", 
+              width: 180, 
+              headerFilter: true 
+            },
+            {
+              title: "Total Amount", 
+              field: "total_amount", 
+              hozAlign: "center", 
+              headerHozAlign: "center", 
+              formatter: "money", 
+              formatterParams: {
+                decimal: ".",
+                thousand: ",",
+                symbol: "MYR "
+              }, 
+              headerFilter: true
+            },
+            {
+              title: "Status", 
+              field: "status", 
+              hozAlign: "center", 
+              headerHozAlign: "center", 
+              headerFilter: true, 
+              formatter: statusCellFormatter
+            }
+          ],
+        });
+      })
+    </script>
+
+</head>
+
+<body>
+
+  <header>
+    <%- include('../partials/header'); %>
+  </header>
+
+  <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+    <div id="orders-table"></div>
+  </div>
+
+</body>
+
+</html>

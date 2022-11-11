@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var fs = require('fs');
+var db_access = require('./database/access')
 
 var indexRouter = require('./routes/index');
 var ordersRouter = require('./routes/orders');
@@ -11,9 +12,11 @@ var ordersRouter = require('./routes/orders');
 
 var app = express();
 
+db.connectToDB();
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 
 app.use(logger('common', {
   stream: fs.createWriteStream('./logs/server.log', { flags: 'a' })
@@ -41,7 +44,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('pages/error', { error: err, title: "Error Page" });
 });
 
 module.exports = app;
