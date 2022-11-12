@@ -12,7 +12,7 @@ var ordersRouter = require('./routes/orders');
 
 var app = express();
 
-db.connectToDB();
+db_access.connectToDB();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
