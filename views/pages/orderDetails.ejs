@@ -1,8 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <%- include('../partials/head'); %>
+
+  
+  <script type="text/javascript">
+    window.addEventListener("load", function () {
+        let orderData = <%- JSON.stringify(orderDetails) %>;
+        let itemsData = orderData["items"]
+
+        // console.log(orderData)
+
+        // Create Tabulator on DOM element with id "order-details-table"
+        var table = new Tabulator("#order-details-table", {
+          data: itemsData, // assign data to table
+          layout: "fitColumns", // fit columns to width of table (optional)
+          columns: [ // Define Table Columns
+            {
+              title: "Item ID", 
+              field: "item_id", 
+              width: 150, 
+              headerHozAlign: "left",
+              headerFilter: true
+            },
+            { 
+              title: "Name", 
+              field: "name", 
+              hozAlign: "center", 
+              headerHozAlign: "center", 
+              width: 180, 
+              headerFilter: true 
+            },
+            {
+              title: "Unit Price", 
+              field: "unit_price", 
+              hozAlign: "center", 
+              headerHozAlign: "center", 
+              formatter: "money", 
+              formatterParams: {
+                decimal: ".",
+                thousand: ",",
+                symbol: "MYR "
+              }, 
+              headerFilter: true
+            },
+            {
+              title: "Quantity", 
+              field: "qty", 
+              hozAlign: "center", 
+              headerHozAlign: "center", 
+              headerFilter: true
+            },
+            {
+              title: "Created At", 
+              field: "created_at", 
+              sorter: "date time", 
+              hozAlign: "center", 
+              headerHozAlign: "center", 
+              sorterParams: {
+                format: "LLL d, yyyy, HH:mm:ss",
+                alignEmptyValues: "top",
+              },
+              headerFilter: true
+            }
+          ],
+        });
+      });
+
+  </script>
 </head>
+
 <body>
 
   <header>
@@ -10,13 +78,33 @@
   </header>
 
   <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-    <div class="max-w-sm w-full lg:max-w-full lg:flex border border-gray-400 rounded-b rounded-t">
-      <div class="p-4">
-        Hello
+    <!-- <div class="max-w-sm w-full lg:max-w-full lg:flex border border-gray-400 rounded-b rounded-t"> -->
+      <div class="mb-4">
+        <h3 class="text-xl font-bold leading-6 text-gray-900">Order Details: <%= orderDetails["order_id_str"] %></h3>
+      </div>
+
+      <div class="overflow-hidden bg-white shadow sm:rounded-lg">
+        <div class="border-t border-gray-200">
+          <dl>
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-base font-medium text-gray-500">Full name</dt>
+              <dd class="mt-1 text-base text-gray-900 sm:col-span-2 sm:mt-0">Margot Foster</dd>
+            </div>
+            <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-base font-medium text-gray-500">Application for</dt>
+              <dd class="mt-1 text-base text-gray-900 sm:col-span-2 sm:mt-0">Backend Developer</dd>
+            </div>
+          </dl>
+        </div>
       </div>
       
-    </div>
+      <div class="bg-white shadow sm:rounded-lg my-5">
+        <div id="order-details-table"></div>
+      </div>
+      
+    <!-- </div> -->
   </div>
 
 </body>
+
 </html>
