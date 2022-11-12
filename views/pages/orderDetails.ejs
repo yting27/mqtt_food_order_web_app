@@ -80,19 +80,23 @@
   <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
     <!-- <div class="max-w-sm w-full lg:max-w-full lg:flex border border-gray-400 rounded-b rounded-t"> -->
       <div class="mb-4">
-        <h3 class="text-xl font-bold leading-6 text-gray-900">Order Details: <%= orderDetails["order_id_str"] %></h3>
+        <h3 class="text-2xl font-bold leading-6 text-gray-900">Order Details: <%= orderDetails["order_id_str"] %></h3>
       </div>
 
       <div class="overflow-hidden bg-white shadow sm:rounded-lg">
         <div class="border-t border-gray-200">
           <dl>
             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt class="text-base font-medium text-gray-500">Full name</dt>
-              <dd class="mt-1 text-base text-gray-900 sm:col-span-2 sm:mt-0">Margot Foster</dd>
+              <dt class="text-base font-medium text-gray-500">Order Creation Date</dt>
+              <dd class="mt-1 text-base text-gray-900 sm:col-span-2 sm:mt-0"><%= orderDetails["created_at"] %></dd>
             </div>
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt class="text-base font-medium text-gray-500">Application for</dt>
-              <dd class="mt-1 text-base text-gray-900 sm:col-span-2 sm:mt-0">Backend Developer</dd>
+              <dt class="text-base font-medium text-gray-500">Table Number</dt>
+              <dd class="mt-1 text-base text-gray-900 sm:col-span-2 sm:mt-0"><%= orderDetails["table_number"] %></dd>
+            </div>
+            <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-base font-medium text-gray-500">Order Status</dt>
+              <dd class="mt-1 text-base text-gray-900 sm:col-span-2 sm:mt-0"><%= orderDetails["status_str"] %></dd>
             </div>
           </dl>
         </div>
@@ -102,6 +106,20 @@
         <div id="order-details-table"></div>
       </div>
       
+      <div class="flex justify-end">
+        <div class="overflow-hidden bg-white shadow sm:rounded-lg w-2/5">
+          <div class="border-t border-gray-200">
+            <dl>
+              <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-lg font-bold text-gray-500">Total Payment</dt>
+                <dd class="mt-1 text-lg text-gray-900 font-bold sm:col-span-2 sm:mt-0 text-right">MYR <%= orderDetails["total_amount"] %></dd>
+              </div>
+            </dl>
+          </div>
+      </div>
+      
+      </div>
+
     <!-- </div> -->
   </div>
 
