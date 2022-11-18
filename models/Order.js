@@ -1,5 +1,5 @@
 const { DateTime } = require("luxon");
-var db_access = require('../database/access')
+var db_access = require('../utils/db_access')
 const { Item } = require('./Item');
 
 /**
@@ -229,7 +229,7 @@ class Order {
     static async updateOrderDetails(orderUpdated) {
         let _db = db_access.getDB();
 
-        if (orderUpdated.order_id === null) {
+        if (orderUpdated.order_id == null) {
             return false; // This order (with order_id = null) does not exists in the database.
         }
 
@@ -244,9 +244,9 @@ class Order {
 
         // Update order items
         for (let item of orderUpdated.items) {
-            const orderResult = await _db.run(
-                'UPDATE Items SET item_id = ?, name = ?, unit_price = ?, qty = ?, created_at =? WHERE order_id = ?',
-                [item.item_id, item.name, item.unit_price, item.qty, item.created_at, orderUpdated.order_id]
+            const itemResult = await _db.run(
+                'UPDATE Items SET name = ?, unit_price = ?, qty = ?, created_at =? WHERE order_id = ? AND item_id = ?',
+                [item.name, item.unit_price, item.qty, item.created_at, orderUpdated.order_id, item.item_id]
             )
         }
 

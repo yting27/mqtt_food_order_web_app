@@ -4,10 +4,12 @@
 <head>
   <%- include('../partials/head'); %>
 
-
     <script type="text/javascript">
-      
       window.addEventListener("load", function () {
+        const orderId = "<%= orderDetails.order_id %>";
+        var updateModalStatusInput = document.getElementById("status-key");
+
+
         // Register listeners for update modal
         var modalElem = document.getElementById("updateModelWhole");
 
@@ -16,16 +18,35 @@
             modalElem.classList.remove("hidden");
           });
 
-        document.querySelectorAll(".closeUpdateModalBtn").forEach( element => {
+        document.querySelectorAll(".closeUpdateModalBtn").forEach(element => {
           element.addEventListener("click", function (event) {
             modalElem.classList.add("hidden");
           });
         })
-          
+
         document.getElementById("saveUpdateModalBtn")
           .addEventListener("click", function (event) {
             // Save the data
-            console.log("Saving data...");
+            console.log("Updating order data...");
+
+            let data = {
+              "order_status": updateModalStatusInput.value
+            }
+
+            fetch(`http://localhost:3000/orders/${orderId}`, {
+              method: 'POST', // or 'PUT'
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+            })
+            .then((data) => {
+              console.log('Success updating order details:', data);
+              location.reload(); // Reload page
+            })
+            .catch((error) => {
+              console.log('Error updating order details:', error);
+            });
 
             modalElem.classList.add("hidden");
           });
@@ -198,12 +219,12 @@
                 <div>
                   <select
                     class="block appearance-none w-full bg-gray-50 border border-gray-300 text-gray-900 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    id="status-keys">
-                    <% Object.keys(orderStatusList).forEach(function(key) { %>
-                      <option>
-                        <%= key %>
+                    id="status-key" name="status-key">
+                    <% for (const [key, value] of Object.entries(orderStatusList)) { %>
+                      <option value="<%= key %>" <%= (key == orderDetails.status ? 'selected' : '') %>>
+                        <%= value %>
                       </option>
-                      <% }); %>
+                    <% } %>
                   </select>
                 </div>
               </div>

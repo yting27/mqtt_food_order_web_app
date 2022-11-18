@@ -23,14 +23,6 @@ class Item {
         }
     }
 
-    static STATUS_LIST = {
-        "Queuing": 1,
-        "Preparing": 2,
-        "Ready": 3,
-        "Served": 4
-    }
-
-
     constructor(item_id, name, unit_price, qty, created_at, order_id=null) {
         let created_at_str = created_at;
         if (created_at instanceof DateTime) {

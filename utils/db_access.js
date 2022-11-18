@@ -6,7 +6,7 @@ let db;
 module.exports.connectToDB = async () => {
   // open the database
   db = await open({
-    filename: './database/proj_db.db',
+    filename: './utils/proj_db.db',
     driver: sqlite3.Database
   })
 

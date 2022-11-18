@@ -5,7 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var fs = require('fs');
 var favicon = require('serve-favicon');
-var db_access = require('./database/access')
+var db_access = require('./utils/db_access')
+var mqtt_client = require('./utils/mqtt_connect');
 
 var indexRouter = require('./routes/index');
 var ordersRouter = require('./routes/orders');
