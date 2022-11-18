@@ -4,9 +4,34 @@
 <head>
   <%- include('../partials/head'); %>
 
-  
-  <script type="text/javascript">
-    window.addEventListener("load", function () {
+
+    <script type="text/javascript">
+      
+      window.addEventListener("load", function () {
+        // Register listeners for update modal
+        var modalElem = document.getElementById("updateModelWhole");
+
+        document.getElementById("updateModelButton")
+          .addEventListener("click", function (event) {
+            modalElem.classList.remove("hidden");
+          });
+
+        document.querySelectorAll(".closeUpdateModalBtn").forEach( element => {
+          element.addEventListener("click", function (event) {
+            modalElem.classList.add("hidden");
+          });
+        })
+          
+        document.getElementById("saveUpdateModalBtn")
+          .addEventListener("click", function (event) {
+            // Save the data
+            console.log("Saving data...");
+
+            modalElem.classList.add("hidden");
+          });
+
+
+        // Display the item table
         let orderData = <%- JSON.stringify(orderDetails) %>;
         let itemsData = orderData["items"]
 
@@ -18,46 +43,46 @@
           layout: "fitColumns", // fit columns to width of table (optional)
           columns: [ // Define Table Columns
             {
-              title: "Item ID", 
-              field: "item_id", 
-              width: 150, 
+              title: "Item ID",
+              field: "item_id",
+              width: 150,
               headerHozAlign: "left",
               headerFilter: true
             },
-            { 
-              title: "Name", 
-              field: "name", 
-              hozAlign: "center", 
-              headerHozAlign: "center", 
-              width: 180, 
-              headerFilter: true 
+            {
+              title: "Name",
+              field: "name",
+              hozAlign: "center",
+              headerHozAlign: "center",
+              width: 180,
+              headerFilter: true
             },
             {
-              title: "Unit Price", 
-              field: "unit_price", 
-              hozAlign: "center", 
-              headerHozAlign: "center", 
-              formatter: "money", 
+              title: "Unit Price",
+              field: "unit_price",
+              hozAlign: "center",
+              headerHozAlign: "center",
+              formatter: "money",
               formatterParams: {
                 decimal: ".",
                 thousand: ",",
                 symbol: "MYR "
-              }, 
+              },
               headerFilter: true
             },
             {
-              title: "Quantity", 
-              field: "qty", 
-              hozAlign: "center", 
-              headerHozAlign: "center", 
+              title: "Quantity",
+              field: "qty",
+              hozAlign: "center",
+              headerHozAlign: "center",
               headerFilter: true
             },
             {
-              title: "Created At", 
-              field: "created_at", 
-              sorter: "date time", 
-              hozAlign: "center", 
-              headerHozAlign: "center", 
+              title: "Created At",
+              field: "created_at",
+              sorter: "date time",
+              hozAlign: "center",
+              headerHozAlign: "center",
               sorterParams: {
                 format: "LLL d, yyyy, HH:mm:ss",
                 alignEmptyValues: "top",
@@ -68,7 +93,7 @@
         });
       });
 
-  </script>
+    </script>
 </head>
 
 <body>
@@ -77,51 +102,153 @@
     <%- include('../partials/header'); %>
   </header>
 
-  <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8 ">
     <!-- <div class="max-w-sm w-full lg:max-w-full lg:flex border border-gray-400 rounded-b rounded-t"> -->
-      <div class="mb-4">
-        <h3 class="text-2xl font-bold leading-6 text-gray-900">Order Details: <%= orderDetails["order_id_str"] %></h3>
+    <div class="mb-4 flex justify-between">
+      <h3 class="text-2xl font-bold leading-6 text-gray-900">Order Details: <%= orderDetails["order_id_str"] %>
+      </h3>
+      <div class="button-region">
+        <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 
+          hover:border-blue-500 rounded" type="button" data-modal-toggle="updateModal" id="updateModelButton">
+          Update
+        </button>
       </div>
+    </div>
 
-      <div class="overflow-hidden bg-white shadow sm:rounded-lg">
+    <div class="overflow-hidden bg-white shadow sm:rounded-lg">
+      <div class="border-t border-gray-200">
+        <dl>
+          <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-base font-medium text-gray-500">Order Creation Date</dt>
+            <dd class="mt-1 text-base text-gray-900 sm:col-span-2 sm:mt-0">
+              <%= orderDetails["created_at"] %>
+            </dd>
+          </div>
+          <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-base font-medium text-gray-500">Table Number</dt>
+            <dd class="mt-1 text-base text-gray-900 sm:col-span-2 sm:mt-0">
+              <%= orderDetails["table_number"] %>
+            </dd>
+          </div>
+          <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-base font-medium text-gray-500">Order Status</dt>
+            <dd class="mt-1 text-base text-gray-900 sm:col-span-2 sm:mt-0">
+              <%= orderDetails["status_str"] %>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <div class="bg-white shadow sm:rounded-lg my-5">
+      <div id="order-details-table"></div>
+    </div>
+
+    <div class="flex justify-end">
+      <div class="overflow-hidden bg-white shadow sm:rounded-lg w-2/5">
         <div class="border-t border-gray-200">
           <dl>
-            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt class="text-base font-medium text-gray-500">Order Creation Date</dt>
-              <dd class="mt-1 text-base text-gray-900 sm:col-span-2 sm:mt-0"><%= orderDetails["created_at"] %></dd>
-            </div>
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt class="text-base font-medium text-gray-500">Table Number</dt>
-              <dd class="mt-1 text-base text-gray-900 sm:col-span-2 sm:mt-0"><%= orderDetails["table_number"] %></dd>
-            </div>
-            <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt class="text-base font-medium text-gray-500">Order Status</dt>
-              <dd class="mt-1 text-base text-gray-900 sm:col-span-2 sm:mt-0"><%= orderDetails["status_str"] %></dd>
+              <dt class="text-lg font-bold text-gray-900">Total Payment</dt>
+              <dd class="mt-1 text-lg text-gray-900 font-bold sm:col-span-2 sm:mt-0 text-right">MYR <%=
+                  orderDetails["total_amount"] %>
+              </dd>
             </div>
           </dl>
         </div>
       </div>
-      
-      <div class="bg-white shadow sm:rounded-lg my-5">
-        <div id="order-details-table"></div>
-      </div>
-      
-      <div class="flex justify-end">
-        <div class="overflow-hidden bg-white shadow sm:rounded-lg w-2/5">
-          <div class="border-t border-gray-200">
-            <dl>
-              <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt class="text-lg font-bold text-gray-900">Total Payment</dt>
-                <dd class="mt-1 text-lg text-gray-900 font-bold sm:col-span-2 sm:mt-0 text-right">MYR <%= orderDetails["total_amount"] %></dd>
-              </div>
-            </dl>
-          </div>
-      </div>
-      
-      </div>
-
+    </div>
     <!-- </div> -->
   </div>
+  </div>
+
+  <!-- Upload Order Modal -->
+  <div class="hidden relative z-10" id="updateModelWhole" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+    <div id="updateModal" tabindex="-1" aria-hidden="true" data-modal-backdrop="static"
+      class="fixed inset-0 z-10 overflow-y-auto mx-auto">
+      <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+        <div
+          class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+          <button type="button"
+            class="closeUpdateModalBtn absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center :bg-gray-800 :text-white"
+            data-modal-toggle="authentication-modal">
+            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"></path>
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+          <div class="py-6 px-6 lg:px-8">
+            <h3 class="mb-4 text-xl font-medium text-gray-900 ">Update Order</h3>
+            <form class="space-y-6" action="#">
+              <!-- <div>
+                <label for="table-num" class="block mb-2 text-sm font-medium text-gray-900 ">Table
+                  Number</label>
+                <input type="table-num" name="table-num" id="table-num"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  required>
+              </div> -->
+              <div>
+                <label for="order-status" class="block mb-2 text-sm font-medium text-gray-900 ">Order
+                  Status</label>
+                <div>
+                  <select
+                    class="block appearance-none w-full bg-gray-50 border border-gray-300 text-gray-900 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    id="status-keys">
+                    <% Object.keys(orderStatusList).forEach(function(key) { %>
+                      <option>
+                        <%= key %>
+                      </option>
+                      <% }); %>
+                  </select>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div
+            class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+            <button type="button" class="px-6
+              py-2.5
+              bg-gray-600
+              text-white
+              font-medium
+              text-xs
+              leading-tight
+              rounded
+              shadow-md
+              hover:bg-gray-700 hover:shadow-lg
+              focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0
+              active:bg-gray-800 active:shadow-lg
+              transition
+              duration-150
+              ease-in-out closeUpdateModalBtn" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="px-6
+              py-2.5
+              bg-blue-600
+              text-white
+              font-medium
+              text-xs
+              leading-tight
+              rounded
+              shadow-md
+              hover:bg-blue-700 hover:shadow-lg
+              focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
+              active:bg-blue-800 active:shadow-lg
+              transition
+              duration-150
+              ease-in-out
+              ml-1" id="saveUpdateModalBtn">Save changes</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- End of Upload Order Modal -->
 
 </body>
 

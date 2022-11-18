@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const { DateTime } = require("luxon");
+const { Item } = require('../models/Item');
 const { Order } = require('../models/Order');
 
 /* GET order list. */
@@ -33,7 +34,8 @@ router.get('/:order_id', async function (req, res, next) {
 
   res.render("pages/orderDetails", { 
     title: `#00123 Order Details`, 
-    orderDetails: orderJS 
+    orderDetails: orderJS,
+    orderStatusList: Item.STATUS_LIST
   });
 
 });
