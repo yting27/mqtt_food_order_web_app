@@ -13,9 +13,13 @@ class Item {
             "name": "Roasted chicken",
             "unit_price": 15.99
         },
-        "012": {
+        "002": {
             "name": "Orange juice",
             "unit_price": 1.80
+        },
+        "004": {
+            "name": "Fried rice",
+            "unit_price": 5.50
         },
         "020": {
             "name": "Mushroom soup",
