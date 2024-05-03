@@ -24,10 +24,17 @@ app.use(favicon(__dirname + '/public/images/favicon.ico'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+
+// Handle server logs
+const logfolder = "./logs";
+if (!fs.existsSync(logfolder)) {
+  fs.mkdirSync(logfolder);
+}
 app.use(logger('common', {
-  stream: fs.createWriteStream('./logs/server.log', { flags: 'a' })
+  stream: fs.createWriteStream(`${logfolder}/server.log`, { flags: 'a' })
 }));
 app.use(logger('dev'));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

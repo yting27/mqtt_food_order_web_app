@@ -11,12 +11,6 @@ router.get('/', async function (req, res, next) {
   let orderArray = await Order.getAllOrders();
   let orderJSObject = Order.convertOrderArrayToJSON(orderArray);
 
-  // console.log(orderJSObject);
-
-  // for (let order of orderArray) {
-  //   Order.updateOrderDetails(order);
-  // }
-
   res.render("pages/orders", {
     title: 'Orders',
     orderList: orderJSObject
@@ -32,15 +26,15 @@ router.get('/:order_id', async function (req, res, next) {
   // Get order details
   let orderJS = (await Order.getOrderWithId(order_id)).toJSON()
 
-  // console.log(orderJS);
+  const zeroPad = (num, places) => String(num).padStart(places, '0')
 
   res.render("pages/orderDetails", {
-    title: `#00123 Order Details`,
+    title: `#${zeroPad(order_id, 6)} Order Details`,
     orderDetails: orderJS,
     orderStatusList: Order.STATUS_MAP
   });
-
 });
+
 
 /* POST (update) order details. */
 router.post('/:order_id', async function (req, res, next) {
@@ -58,7 +52,7 @@ router.post('/:order_id', async function (req, res, next) {
         console.log("Failed to update order details");
 
       } else {
-        // Send MQTT message to update order status
+        // Send MQTT message to IoT devices to update order status
         mqtt_client.publish("toDevice_order",
           JSON.stringify({
             action: "update_order_status",

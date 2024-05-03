@@ -8,10 +8,10 @@ const client = mqtt.connect('mqtt://localhost:1883', {
 
 
 // Two topics:
-// 1. fromDevice_order - Send from device to web app
-// 2. toDevice_order - Send from web app to device
+// 1. fromDevice_order - Send from devices to web app
+// 2. toDevice_order - Send from web app to devices
 
-client.on('connect', function () {
+client.on('connect', () => {
     // Get new order
     client.subscribe('fromDevice_order', function (err) {
         if (!err) {
@@ -80,13 +80,11 @@ client.on('message', (topic, message, packet) => {
 
 });
 
-client.on('error', function(error)
-{
+client.on('error', (error) => {
 	console.log("MQTT connection error: ", error);
 });
 
-client.on('close', function()
-{
+client.on('close', () => {
 	console.log("MQTT connection closed.");
 });
 
